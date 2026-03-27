@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="RuxxStore - Toko Online Modern dengan pengalaman belanja terbaik">
+    <meta name="theme-color" content="#667eea">
+    <title>RuxxStore - Toko Online Modern</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* Custom Font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        /* Splash Screen */
+        .splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .splash-content {
+            text-align: center;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .splash-logo {
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: -1px;
+        }
+        
+        .splash-title {
+            font-size: 2rem;
+            color: white;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+        
+        .splash-subtitle {
+            color: rgba(255,255,255,0.8);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: none;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.3;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            position: relative;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            position: relative;
+        }
+        
+        /* Products Grid */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f56565;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .product-badge.instant {
+            background: #48bb78;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 1.25rem;
+        }
+        
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+            line-height: 1.4;
+        }
+        
+        .product-price {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+        
+        .product-stock {
+            font-size: 0.85rem;
+            color: #48bb78;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .product-stock.out {
+            color: #f56565;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2d3748;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            animation: slideInRight 0.3s ease-out;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(102,126,234,0.2);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .cart-badge {
+            background: linear-gradient(135deg, #f56565 0%, #ed64a6 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        
+        /* Cart Item */
+        .cart-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .cart-item:hover {
+            background: #f7fafc;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            background: #edf2f7;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .quantity-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 24px;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="splash" id="splash">
+        <div class="splash-content">
+            <div class="splash-logo">⚡ RUXXSTORE</div>
+            <div class="splash-title">Selamat Datang</div>
+            <div class="splash-subtitle">Pengalaman belanja modern & terpercaya</div>
+        </div>
+    </div>
+    
+    <div class="main-content" id="mainContent">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo" onclick="loadPage('home')">⚡ RUXXSTORE</a>
+                <div class="nav-links">
+                    <a href="#" onclick="loadPage('home')">🏠 Beranda</a>
+                    <a href="#" onclick="loadPage('search')">🔍 Cari</a>
+                    <a href="#" onclick="loadPage('cart')" id="cartLink">🛒 Keranjang <span id="cartCount" class="cart-badge" style="display:none;">0</span></a>
+                    <a href="#" onclick="loadPage('account')" id="accountLink">👤 Akun</a>
+                    <a href="#" onclick="logout()" id="logoutLink" style="display:none;">🚪 Logout</a>
+                    <a href="#" onclick="loadPage('login')" id="loginLink">🔐 Login</a>
+                </div>
+            </div>
+        </nav>
+        
+        <div id="pageContent"></div>
+    </div>
+    
+    <div id="toastContainer"></div>
+    
+    <script>
+        const API_URL = 'http://208.76.40.112:3346/api';
+        let currentUser = null;
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        
+        // Splash screen
+        setTimeout(() => {
+            const splash = document.getElementById('splash');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                checkAuth();
+                loadPage('home');
+            }, 800);
+        }, 2000);
+        
+        function showToast(message, isError = true) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? 'linear-gradient(135deg, #f56565, #ed64a6)' : 'linear-gradient(135deg, #48bb78, #38a169)';
+            toast.innerHTML = `${isError ? '⚠️' : '✅'} ${message}`;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            if (count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (token && user) {
+                currentUser = JSON.parse(user);
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('logoutLink').style.display = 'inline-block';
+                document.getElementById('accountLink').style.display = 'inline-block';
+            } else {
+                document.getElementById('loginLink').style.display = 'inline-block';
+                document.getElementById('logoutLink').style.display = 'none';
+                document.getElementById('accountLink').style.display = 'none';
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            currentUser = null;
+            checkAuth();
+            loadPage('home');
+            showToast('Anda telah logout', false);
+        }
+        
+        async function loadPage(page) {
+            const content = document.getElementById('pageContent');
+            content.classList.add('fade-in');
+            
+            if (page === 'home') {
+                await loadHomePage(content);
+            } else if (page === 'login') {
+                loadLoginPage(content);
+            } else if (page === 'register') {
+                loadRegisterPage(content);
+            } else if (page === 'cart') {
+                await loadCartPage(content);
+            } else if (page === 'search') {
+                loadSearchPage(content);
+            } else if (page === 'account') {
+                await loadAccountPage(content);
+            } else if (page === 'transactions') {
+                await loadTransactionsPage(content);
+            }
+            
+            setTimeout(() => content.classList.remove('fade-in'), 500);
+        }
+        
+        async function loadHomePage(container) {
+            container.innerHTML = `
+                <div class="hero">
+                    <h1>✨ RUXXSTORE</h1>
+                    <p>Temukan produk terbaik dengan harga terbaik ✨</p>
+                </div>
+                <div class="container">
+                    <h2 class="section-title">🔥 Produk Terbaru</h2>
+                    <div class="products-grid" id="productsGrid">
+                        <div style="text-align: center; padding: 2rem;"><div class="loading"></div> Memuat produk...</div>
+                    </div>
+                </div>
+            `;
+            
+            await loadProducts();
+        }
+        
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_URL}/products`);
+                const products = await response.json();
+                
+                const grid = document.getElementById('productsGrid');
+                if (!grid) return;
+                
+                if (products.length === 0) {
+                    grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📦</div><h3>Belum ada produk</h3><p>Produk akan segera hadir</p></div>';
+                    return;
+                }
+                
+                grid.innerHTML = products.map(product => `
+                    <div class="product-card" onclick="showProductDetail(${product.id})">
+                        ${product.is_instant ? '<div class="product-badge instant">⚡ INSTANT</div>' : (product.stock === 0 ? '<div class="product-badge">HABIS</div>' : '')}
+                        <div class="product-image">
+                            ${product.image_url ? `<img src="${product.image_url}" alt="${product.name}" loading="lazy">` : '📦'}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${escapeHtml(product.name)}</div>
+                            <div class="product-price">Rp ${product.price.toLocaleString()}</div>
+                            <div class="product-stock ${product.stock === 0 && !product.is_instant ? 'out' : ''}">
+                                ${product.is_instant ? '⚡ Instan Download' : (product.stock > 0 ? `📦 Stok: ${product.stock}` : '❌ Stok Habis')}
+                            </div>
+                            <button class="btn" onclick="event.stopPropagation(); addToCart(${product.id}, '${escapeHtml(product.name)}', ${product.price}, ${product.stock}, ${product.is_instant || false})" ${product.stock === 0 && !product.is_instant ? 'disabled' : ''}>
+                                ${product.is_instant ? '⚡ Beli Sekarang' : (product.stock > 0 ? '🛒 Tambah ke Keranjang' : '❌ Habis')}
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading products:', err);
+                showToast('Gagal memuat produk');
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function addToCart(id, name, price, stock, isInstant) {
+            if (!currentUser) {
+                showToast('Silakan login terlebih dahulu');
+                loadPage('login');
+                return;
+            }
+            
+            if (!isInstant && stock === 0) {
+                showToast('Mohon maaf, barang sedang habis');
+                return;
+            }
+            
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ id, name, price, quantity: 1, is_instant: isInstant });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            showToast(`${name} ditambahkan ke keranjang`, false);
+        }
+        
+        function loadLoginPage(container) {
+            container.innerHTML = `
+                <div class="container">
+                    <div style="max-width: 450px; margin: 2rem auto;">
+                        <div style="background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                            <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent;">🔐 Selamat Datang</h2>
+                            <div class="form-group">
+                                <label>Metode Login:</label>
+                                <select id="loginMethod" style="width: 100%; padding: 0.75rem; border-radius: 12px; border: 2px solid #e2e8f0;">
+                                    <option value="telegram">📱 Telegram (OTP)</option>
+                                    <option value="email">✉️ Email/Password</option>
+                                </select>
+                            </div>
+                            <div id="telegramLogin">
+                                <div class="form-group">
+                                    <label>📞 Nomor Telegram:</label>
+                                    <input type="text" id="telegramPhone" placeholder="Masukkan nomor Telegram" style="width: 100%; padding: 0.75rem; border-radius: 12px; border: 2px solid #e2e8f0;">
+                                </div>
+                                <button class="btn" onclick="requestOTP()">📨 Kirim OTP</button>
+                                <div id="otpSection" style="display: none; margin-top: 1rem;">
+                                    <div class="form-group">
+                                        <label>🔑 Kode OTP:</label>
+                                        <input type="text" id="otpCode" placeholder="6 digit kode" style="width: 100%; padding: 0.75rem; border-radius: 12px; border: 2px solid #e2e8f0;">
+                                    </div>
+                                    <button class="btn" onclick="verifyOTP()">✅ Verifikasi</button>
+                                    <div id="otpTimer" style="margin-top: 0.75rem; font-size: 0.85rem; color: #718096; text-align: center;"></div>
+                                </div>
+                            </div>
+                            <div id="emailLogin" style="display: none;">
+                                <div class="form-group">
+                                    <label>👤 Username/Email:</label>
+                                    <input type="text" id="loginUsername" style="width: 100%; padding: 0.75rem; border-radius: 12px; border: 2px solid #e2e8f0;">
+                                </div>
+                                <div class="form-group">
+                                    <label>🔒 Password:</label>
+                                    <input type="password" id="loginPassword" style="width: 100%; padding: 0.75rem; border-radius: 12px; border: 2px solid #e2e8f0;">
+                                </div>
+                                <button class="btn" onclick="loginWithEmail()">🔓 Login</button>
+                            </div>
+                            <div style="margin-top: 1.5rem; text-align: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                                Belum punya akun? <a href="#" onclick="loadPage('register')" style="color: #667eea; font-weight: 600;">Daftar Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('loginMethod').addEventListener('change', (e) => {
+                const isTelegram = e.target.value === 'telegram';
+                document.getElementById('telegramLogin').style.display = isTelegram ? 'block' : 'none';
+                document.getElementById('emailLogin').style.display = isTelegram ? 'none' : 'block';
+            });
+        }
+        
+        let otpTimeout = null;
+        let otpAttempts = 0;
+        
+        function requestOTP() {
+            const phone = document.getElementById('telegramPhone').value;
+            if (!phone) {
+                showToast('Masukkan nomor Telegram');
+                return;
+            }
+            
+            const waitTime = getOTPWaitTime();
+            if (waitTime > 0) {
+                showToast(`Tunggu ${waitTime} detik sebelum meminta OTP lagi`);
+                return;
+            }
+            
+            fetch(`${API_URL}/request-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('OTP telah dikirim via Telegram! Cek bot OTP', false);
+                    document.getElementById('otpSection').style.display = 'block';
+                    startOTPTimer();
+                    otpAttempts++;
+                    localStorage.setItem('lastOTPTime', Date.now());
+                    localStorage.setItem('otpAttempts', otpAttempts);
+                } else {
+                    showToast('Gagal mengirim OTP');
+                }
+            })
+            .catch(err => {
+                showToast('Error: ' + err.message);
+            });
+        }
+        
+        function getOTPWaitTime() {
+            const lastTime = localStorage.getItem('lastOTPTime');
+            if (!lastTime) return 0;
+            
+            const elapsed = (Date.now() - parseInt(lastTime)) / 1000;
+            const attempts = parseInt(localStorage.getItem('otpAttempts') || '0');
+            
+            const waitTimes = [0, 30, 60, 150, 300];
+            const waitTime = waitTimes[Math.min(attempts, waitTimes.length - 1)];
+            
+            return Math.max(0, waitTime - elapsed);
+        }
+        
+        function startOTPTimer() {
+            let waitTime = getOTPWaitTime();
+            const timerDiv = document.getElementById('otpTimer');
+            
+            if (otpTimeout) clearInterval(otpTimeout);
+            
+            otpTimeout = setInterval(() => {
+                waitTime = getOTPWaitTime();
+                if (waitTime <= 0) {
+                    clearInterval(otpTimeout);
+                    timerDiv.textContent = '✅ Anda dapat meminta OTP lagi';
+                } else {
+                    timerDiv.textContent = `⏱️ Tunggu ${Math.ceil(waitTime)} detik untuk meminta OTP lagi`;
+                }
+            }, 1000);
+        }
+        
+        function verifyOTP() {
+            const phone = document.getElementById('telegramPhone').value;
+            const otp = document.getElementById('otpCode').value;
+            
+            if (!otp) {
+                showToast('Masukkan kode OTP');
+                return;
+            }
+            
+            fetch(`${API_URL}/verify-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, otp })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    checkAuth();
+                    loadPage('home');
+                    showToast('Login berhasil! Selamat berbelanja ✨', false);
+                } else {
+                    showToast('Kode OTP salah atau expired');
+                }
+            })
+            .catch(err => {
+                showToast('Error: ' + err.message);
+            });
+        }
+        
+        async function loginWithEmail() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                showToast('Isi semua field');
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, login_method: 'email' })
+                });
+                const data = await res.json();
+                
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    checkAuth();
+                    loadPage('home');
+                    showToast('Login berhasil! Selamat berbelanja ✨', false);
+                } else {
+                    showToast(data.error || 'Login gagal');
+                }
+            } catch (err) {
+                showToast('Error: ' + err.message);
+            }
+        }
+        
+        function loadRegisterPage(container) {
+            container.innerHTML = `
+                <div class="container">
+                    <div style="max-width: 450px; margin: 2rem auto;">
+                        <div style="background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                            <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent;">📝 Daftar Akun</h2>
+                            <div class="form-group">
+                                <label>👤 Username:</label>
+                                <input type="text" id="regUsername" placeholder="Masukkan username">
+                            </div>
+                            <div class="form-group">
+                                <label>✉️ Email:</label>
+                                <input type="email" id="regEmail" placeholder="Masukkan email">
+                            </div>
+                            <div class="form-group">
+                                <label>🔒 Password:</label>
+                                <input type="password" id="regPassword" placeholder="Minimal 6 karakter">
+                            </div>
+                            <button class="btn" onclick="register()">✅ Daftar Sekarang</button>
+                            <div style="margin-top: 1.5rem; text-align: center; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                                Sudah punya akun? <a href="#" onclick="loadPage('login')" style="color: #667eea; font-weight: 600;">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        async function register() {
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            if (!username || !email || !password) {
+                showToast('Isi semua field');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast('Password minimal 6 karakter');
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password, login_method: 'email' })
+                });
+                const data = await res.json();
+                
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    checkAuth();
+                    loadPage('home');
+                    showToast('Registrasi berhasil! Selamat datang ✨', false);
+                } else {
+                    showToast(data.error || 'Registrasi gagal');
+                }
+            } catch (err) {
+                showToast('Error: ' + err.message);
+            }
+        }
+        
+        async function loadCartPage(container) {
+            updateCartCount();
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="container">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🛒</div>
+                            <h3>Keranjang Kosong</h3>
+                            <p>Yuk mulai belanja sekarang!</p>
+                            <a href="#" onclick="loadPage('home')" style="display: inline-block; margin-top: 1rem; color: #667eea; font-weight: 600;">✨ Belanja Sekarang →</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let total = 0;
+            let itemsHtml = '';
+            
+            for (let item of cart) {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                itemsHtml += `
+                    <div class="cart-item">
+                        <div>
+                            <h3 style="margin-bottom: 0.25rem;">${escapeHtml(item.name)}</h3>
+                            <p style="color: #667eea; font-weight: 600;">Rp ${item.price.toLocaleString()} x ${item.quantity}</p>
+                        </div>
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                            <span style="min-width: 40px; text-align: center; font-weight: 600;">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                            <button class="quantity-btn" onclick="removeFromCart(${item.id})" style="background: #f56565; color: white;">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = `
+                <div class="container">
+                    <h2 class="section-title">🛒 Keranjang Belanja</h2>
+                    <div style="background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        ${itemsHtml}
+                        <div style="padding: 1.5rem; background: #f7fafc; text-align: right;">
+                            <h3 style="font-size: 1.5rem;">Total: <span style="color: #667eea;">Rp ${total.toLocaleString()}</span></h3>
+                            <button class="btn" onclick="checkout()" style="width: auto; margin-top: 1rem; padding: 0.75rem 2rem;">💰 Checkout Sekarang</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function updateCartQuantity(id, newQty) {
+            if (newQty <= 0) {
+                removeFromCart(id);
+                return;
+            }
+            
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity = newQty;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                loadPage('cart');
+            }
+        }
+        
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            loadPage('cart');
+        }
+        
+        async function checkout() {
+            if (!currentUser) {
+                showToast('Silakan login terlebih dahulu');
+                loadPage('login');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            const hasManual = cart.some(item => !item.is_instant);
+            
+            let note = '';
+            if (hasManual) {
+                note = prompt('📝 Masukkan catatan untuk pesanan (misal: nama panel, catatan khusus, dll):');
+                if (note === null) return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/create-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({
+                        items: cart,
+                        total,
+                        note,
+                        payment_method: 'qris'
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (data.order) {
+                    localStorage.setItem('currentOrder', JSON.stringify(data.order));
+                    localStorage.setItem('currentQRIS', JSON.stringify(data.qris));
+                    cart = [];
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+                    
+                    showPaymentPage(data.order, data.qris);
+                } else {
+                    showToast(data.error || 'Checkout gagal');
+                }
+            } catch (err) {
+                showToast('Error: ' + err.message);
+            }
+        }
+        
+        function showPaymentPage(order, qris) {
+            const container = document.getElementById('pageContent');
+            container.innerHTML = `
+                <div class="container">
+                    <div style="max-width: 500px; margin: 2rem auto;">
+                        <div style="background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center;">
+                            <h2 style="margin-bottom: 1rem;">💳 Pembayaran</h2>
+                            <p style="color: #718096;"><strong>Order ID:</strong> ${order.id}</p>
+                            <p style="font-size: 1.5rem; font-weight: 700; color: #667eea; margin: 1rem 0;">Rp ${order.total.toLocaleString()}</p>
+                            <div style="text-align: center; margin: 2rem 0; padding: 1rem; background: #f7fafc; border-radius: 16px;">
+                                <img src="${qris.qr_image}" alt="QRIS" style="max-width: 100%; width: 250px; height: auto;">
+                            </div>
+                            <p style="margin-bottom: 1rem;">📱 Scan QRIS di atas untuk membayar</p>
+                            <button class="btn" onclick="checkPaymentStatus('${order.id}')">🔄 Cek Status Pembayaran</button>
+                            <div id="paymentStatus" style="margin-top: 1.5rem; text-align: center;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            let checkInterval = setInterval(async () => {
+                const status = await checkPaymentStatus(order.id);
+                if (status === 'PAID') {
+                    clearInterval(checkInterval);
+                }
+            }, 5000);
+        }
+        
+        async function checkPaymentStatus(orderId) {
+            const statusDiv = document.getElementById('paymentStatus');
+            if (!statusDiv) return;
+            
+            try {
+                const res = await fetch(`${API_URL}/check-payment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ payment_id: orderId })
+                });
+                const data = await res.json();
+                
+                if (data.status === 'PAID') {
+                    statusDiv.innerHTML = '<div style="background: #c6f6d5; color: #22543d; padding: 1rem; border-radius: 12px;">✅ Pembayaran berhasil! Pesanan akan segera diproses.</div>';
+                    setTimeout(() => loadPage('transactions'), 3000);
+                    return 'PAID';
+                } else {
+                    statusDiv.innerHTML = '<div style="background: #fed7d7; color: #742a2a; padding: 1rem; border-radius: 12px;">⏳ Menunggu pembayaran...</div>';
+                    return 'PENDING';
+                }
+            } catch (err) {
+                return 'ERROR';
+            }
+        }
+        
+        function loadSearchPage(container) {
+            container.innerHTML = `
+                <div class="container">
+                    <h2 class="section-title">🔍 Cari Produk</h2>
+                    <input type="text" id="searchInput" placeholder="Cari produk... (contoh: baju, elektronik, dll)" style="width: 100%; padding: 1rem; margin: 1rem 0 2rem 0; border: 2px solid #e2e8f0; border-radius: 16px; font-size: 1rem;">
+                    <div class="products-grid" id="searchResults"></div>
+                </div>
+            `;
+            
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
+        }
+        
+        async function searchProducts(query) {
+            if (!query.trim()) {
+                document.getElementById('searchResults').innerHTML = '';
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/products`);
+                const products = await res.json();
+                const filtered = products.filter(p => 
+                    p.name.toLowerCase().includes(query.toLowerCase()) ||
+                    (p.description && p.description.toLowerCase().includes(query.toLowerCase()))
+                );
+                
+                const grid = document.getElementById('searchResults');
+                if (filtered.length === 0) {
+                    grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><h3>Produk tidak ditemukan</h3><p>Coba dengan kata kunci lain</p></div>';
+                    return;
+                }
+                
+                grid.innerHTML = filtered.map(product => `
+                    <div class="product-card" onclick="showProductDetail(${product.id})">
+                        <div class="product-image">
+                            ${product.image_url ? `<img src="${product.image_url}" alt="${product.name}">` : '📦'}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${escapeHtml(product.name)}</div>
+                            <div class="product-price">Rp ${product.price.toLocaleString()}</div>
+                            <button class="btn" onclick="event.stopPropagation(); addToCart(${product.id}, '${escapeHtml(product.name)}', ${product.price}, ${product.stock || 0}, ${product.is_instant || false})">
+                                🛒 Tambah ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Search error:', err);
+            }
+        }
+        
+        async function loadAccountPage(container) {
+            if (!currentUser) {
+                loadPage('login');
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="container">
+                    <div style="max-width: 600px; margin: 2rem auto;">
+                        <div style="background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                            <h2 style="margin-bottom: 1.5rem;">👤 Akun Saya</h2>
+                            <div style="background: #f7fafc; padding: 1.5rem; border-radius: 16px;">
+                                <p style="margin-bottom: 0.75rem;"><strong>Username:</strong> ${currentUser.username}</p>
+                                <p style="margin-bottom: 0.75rem;"><strong>Email:</strong> ${currentUser.email || '-'}</p>
+                                <p style="margin-bottom: 0.75rem;"><strong>Metode Login:</strong> ${currentUser.login_method || 'email'}</p>
+                                <p><strong>Member Sejak:</strong> ${new Date().toLocaleDateString('id-ID')}</p>
+                            </div>
+                            <hr style="margin: 1.5rem 0;">
+                            <a href="#" onclick="loadPage('transactions')" style="display: inline-block; color: #667eea; font-weight: 600; text-decoration: none;">📋 Lihat Riwayat Transaksi →</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        async function loadTransactionsPage(container) {
+            if (!currentUser) {
+                loadPage('login');
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/orders`, {
+                    headers: { 'Authorization': localStorage.getItem('token') }
+                });
+                const orders = await res.json();
+                
+                if (orders.length === 0) {
+                    container.innerHTML = `
+                        <div class="container">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">📋</div>
+                                <h3>Belum ada transaksi</h3>
+                                <p>Mulai belanja sekarang!</p>
+                                <a href="#" onclick="loadPage('home')" style="display: inline-block; margin-top: 1rem; color: #667eea; font-weight: 600;">✨ Mulai Belanja →</a>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div class="container">
+                        <h2 class="section-title">📋 Riwayat Transaksi</h2>
+                        ${orders.map(order => `
+                            <div style="background: white; border-radius: 20px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                                <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                                    <div>
+                                        <p><strong>🆔 Order ID:</strong> ${order.id}</p>
+                                        <p><strong>💰 Total:</strong> <span style="color: #667eea; font-weight: 700;">Rp ${order.total.toLocaleString()}</span></p>
+                                    </div>
+                                    <div>
+                                        ${getStatusBadge(order.status)}
+                                    </div>
+                                </div>
+                                <p><strong>📅 Tanggal:</strong> ${new Date(order.created_at).toLocaleString('id-ID')}</p>
+                                ${order.note ? `<p><strong>📝 Catatan:</strong> ${escapeHtml(order.note)}</p>` : ''}
+                                <details style="margin-top: 1rem;">
+                                    <summary style="cursor: pointer; color: #667eea; font-weight: 600;">📦 Detail Produk</summary>
+                                    <div style="margin-top: 0.75rem; padding-left: 1rem;">
+                                        ${order.items.map(item => `
+                                            <p style="margin: 0.5rem 0;">• ${escapeHtml(item.name)} x${item.quantity} = Rp ${(item.price * item.quantity).toLocaleString()}</p>
+                                        `).join('')}
+                                    </div>
+                                </details>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (err) {
+                showToast('Gagal memuat transaksi');
+            }
+        }
+        
+        function getStatusBadge(status) {
+            const statuses = {
+                'pending': '<span class="status-badge" style="background: #ed8936; color: white;">⏳ Menunggu Pembayaran</span>',
+                'waiting_approval': '<span class="status-badge" style="background: #ecc94b; color: white;">📋 Menunggu Konfirmasi</span>',
+                'approved': '<span class="status-badge" style="background: #48bb78; color: white;">✅ Disetujui</span>',
+                'rejected': '<span class="status-badge" style="background: #f56565; color: white;">❌ Ditolak</span>'
+            };
+            return statuses[status] || status;
+        }
+        
+        function showProductDetail(id) {
+            window.location.hash = `product-${id}`;
+            loadProductDetail(id);
+        }
+        
+        async function loadProductDetail(id) {
+            try {
+                const res = await fetch(`${API_URL}/products/${id}`);
+                const product = await res.json();
+                
+                const container = document.getElementById('pageContent');
+                container.innerHTML = `
+                    <div class="container">
+                        <div style="max-width: 800px; margin: 2rem auto; background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                            <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #f7fafc, #edf2f7);">
+                                ${product.image_url ? `<img src="${product.image_url}" alt="${product.name}" style="max-width: 100%; max-height: 400px; border-radius: 12px;">` : '<div style="font-size: 5rem;">📦</div>'}
+                            </div>
+                            <div style="padding: 2rem;">
+                                <h1 style="font-size: 1.75rem; margin-bottom: 0.5rem;">${escapeHtml(product.name)}</h1>
+                                <p style="color: #667eea; font-size: 2rem; font-weight: 800; margin: 1rem 0;">Rp ${product.price.toLocaleString()}</p>
+                                <p style="color: #718096; line-height: 1.6; margin: 1rem 0;">${product.description || 'Tidak ada deskripsi'}</p>
+                                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                                    <button class="btn" onclick="addToCart(${product.id}, '${escapeHtml(product.name)}', ${product.price}, ${product.stock || 0}, ${product.is_instant || false})">
+                                        🛒 Tambah ke Keranjang
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="loadPage('home')">← Kembali</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                showToast('Gagal memuat detail produk');
+            }
+        }
+        
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash;
+            if (hash.startsWith('#product-')) {
+                const id = hash.split('-')[1];
+                loadProductDetail(id);
+            } else if (hash === '' || hash === '#') {
+                loadPage('home');
+            }
+        });
+        
+        updateCartCount();
+    </script>
+</body>
+</html>
